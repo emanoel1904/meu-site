@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Aniversário - 19 Anos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .login-section, .invite-section {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .invite-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #6a11cb;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo span {
+            font-size: 40px;
+            color: #6a11cb;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(106, 17, 203, 0.2);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            box-shadow: 0 5px 20px rgba(106, 17, 203, 0.3);
+            border: 1px solid rgba(106, 17, 203, 0.5);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: white;
+            padding: 0 5px;
+            font-size: 14px;
+            color: #6a11cb;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .error-msg {
+            color: #ff3860;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .invite-details {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .invite-details h2 {
+            font-size: 24px;
+            color: #6a11cb;
+            margin-bottom: 10px;
+        }
+
+        .invite-details p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .date-time {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .date-time div {
+            text-align: center;
+        }
+
+        .date-time span {
+            display: block;
+        }
+
+        .date-time .label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .date-time .value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6a11cb;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .countdown-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .countdown-label {
+            font-size: 12px;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+
+        .whatsapp-icon {
+            font-size: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #f2d74e;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="login-section" id="loginSection">
+            <div class="logo">
+                <span>🎉</span>
+            </div>
+            <h1>Convite Especial</h1>
+            <div class="input-group">
+                <label for="password">Código do Convite</label>
+                <input type="password" id="password" placeholder="Digite o código do convite">
+                <div class="error-msg" id="errorMsg">Código inválido. Tente novamente.</div>
+            </div>
+            <button class="btn" id="loginBtn">Acessar Convite</button>
+        </div>
+
+        <div class="invite-section" id="inviteSection">
+            <div class="logo">
+                <span>🎂</span>
+            </div>
+            <h1>Meu Aniversário de 19 Anos!</h1>
+            
+            <div class="invite-details">
+                <h2>Você está convidado!</h2>
+                <p>Venha celebrar comigo este momento especial. Será uma festa incrível!</p>
+            </div>
+            
+            <div class="date-time">
+                <div>
+                    <span class="label">Data</span>
+                    <span class="value">19/04/2025</span>
+                </div>
+                <div>
+                    <span class="label">Horário</span>
+                    <span class="value">19:00h</span>
+                </div>
+                <div>
+                    <span class="label">Local</span>
+                    <span class="value">A definir</span>
+                </div>
+            </div>
+            
+            <div class="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-value" id="days">00</span>
+                    <span class="countdown-label">Dias</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="hours">00</span>
+                    <span class="countdown-label">Horas</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="minutes">00</span>
+                    <span class="countdown-label">Min</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="seconds">00</span>
+                    <span class="countdown-label">Seg</span>
+                </div>
+            </div>
+            
+            <a href="https://chat.whatsapp.com/KNneZicEEZNFPxA5XTdHwB" target="_blank" class="btn whatsapp-btn">
+                <span class="whatsapp-icon">💬</span>
+                Entrar no Grupo do WhatsApp
+            </a>
+            
+            <div class="footer">
+                <p>Espero você lá! 🎈</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Criar partículas decorativas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const colors = ['#f2d74e', '#95e082', '#fb7aa6', '#72cbf1', '#b388fe'];
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 15 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = color;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Verificar senha
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (password === '19042006') {
+                // Senha correta - mostrar convite
+                document.getElementById('loginSection').style.display = 'none';
+                const inviteSection = document.getElementById('inviteSection');
+                inviteSection.style.display = 'block';
+                
+                // Fade in do convite
+                setTimeout(() => {
+                    inviteSection.style.opacity = '1';
+                    inviteSection.style.transform = 'translateY(0)';
+                    createConfetti();
+                }, 100);
+                
+                // Iniciar contagem regressiva
+                startCountdown();
+            } else {
+                // Senha incorreta - exibir erro
+                errorMsg.style.display = 'block';
+                document.getElementById('password').value = '';
+                
+                // Shake animation
+                document.querySelector('.container').classList.add('shake');
+                setTimeout(() => {
+                    document.querySelector('.container').classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        // Contagem regressiva
+        function startCountdown() {
+            const countdownDate = new Date("Apr 19, 2025 19:00:00").getTime();
+            
+            const countdownFunction = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+                
+                if (distance < 0) {
+                    clearInterval(countdownFunction);
+                    document.getElementById("days").innerHTML = "00";
+                    document.getElementById("hours").innerHTML = "00";
+                    document.getElementById("minutes").innerHTML = "00";
+                    document.getElementById("seconds").innerHTML = "00";
+                }
+            }, 1000);
+        }
+
+        // Efeito de confetti na revelação do convite
+        function createConfetti() {
+            const container = document.querySelector('body');
+            const confettiColors = ['#f2d74e', '#95e082', '#fb7aa6', '#72cbf1', '#b388fe'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const size = Math.random() * 10 + 5;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                
+                confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = '-50px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                container.appendChild(confetti);
+                
+                // Animação de queda
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                
+                // Estilo de animação
+                const keyframes = `
+                    @keyframes fall {
+                        to {
+                            top: 100vh;
+                            transform: rotate(${Math.random() * 360 + 360}deg) translateX(${Math.random() * 100 - 50}px);
+                        }
+                    }
+                `;
+                
+                const styleElement = document.createElement('style');
+                styleElement.innerHTML = keyframes;
+                document.head.appendChild(styleElement);
+                
+                // Remover o confetti após a animação
+                setTimeout(() => {
+                    confetti.remove();
+                    styleElement.remove();
+                }, animationDuration * 1000);
+            }
+        }
+
+        // Inicializar partículas
+        createParticles();
+    </script>
+</body>
+</html>
